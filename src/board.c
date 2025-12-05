@@ -55,12 +55,12 @@ void display_board()
 
 void set_square_color(int y, int x)
 {
-    if ((x + y) & 1 == 0)
+    if (((x + y) & 1) == 0)
     {
-        board[x][y] == '-';
+        board[y][x] = '-';
     }
     else
     {
-        board[x][y] == ' ';
+        board[y][x] = ' ';
     }
 }
