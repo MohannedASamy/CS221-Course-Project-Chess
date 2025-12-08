@@ -4,14 +4,10 @@
 #include "board.h"
 #include "bishop.h"
 #include "rook.h"
+#include <stdlib.h>
+#include <ctype.h>
+#include <stdbool.h>
 
-
-
-
-
-
-
-
-
+bool can_move_queen(y1, x1, y2, x2);
 
 #endif

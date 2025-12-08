@@ -1,14 +1,15 @@
 #include "pawn.h"
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 bool can_move_pawn(y1, x1, y2, x2, is_black)
 {
-    if (x1 == 1 && x2 == 3 && !is_black && y1 == y2 && !isupper(board[y1][x1 + 1]) && !islower(board[y1][x1 + 1]) && !isupper(board[y1][x1 + 2]))
+    if (y1 == 1 && y2 == 3 && !is_black && x1 == x2 && !isalpha(board[y1][x1 + 1]) && !isupper(board[y1][x1 + 2]))
     {
         return true;
     }
-    else if (x1 == 6 && x2 == 4 && is_black && y1 == y2 && !isupper(board[y1][x1 - 1]) && !islower(board[y1][x1 - 1]) && !islower(board[y1][x1 - 2]))
+    else if (y1 == 6 && y2 == 4 && is_black && x1 == x2 && !isalpha(board[y1][x1 - 1]) && !islower(board[y1][x1 - 2]))
     {
         return true;
     }
