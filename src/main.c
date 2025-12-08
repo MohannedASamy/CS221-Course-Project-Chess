@@ -58,7 +58,12 @@ bool move(int y1, int x1, int y2, int x2, bool is_black)
     {
     case 'k':
     case 'K':
-        // can_move = can_move_king(y1, x1, y2, x2);
+        can_move = can_move_king(y1, x1, y2, x2);
+        if (can_move)
+        {
+            king_location[is_black][0] = y2;
+            king_location[is_black][0] = x2;
+        }
         break;
     case 'q':
     case 'Q':
