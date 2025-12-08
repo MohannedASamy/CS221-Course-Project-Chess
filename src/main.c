@@ -60,23 +60,25 @@ bool move(int y1, int x1, int y2, int x2, bool is_black)
         break;
     case 'q':
     case 'Q':
-        // can_move = can_move_queen(y1, x1, y2, x2);
+        can_move = can_move_queen(y1, x1, y2, x2);
         break;
     case 'r':
     case 'R':
-        // can_move = can_move_rook(y1, x1, y2, x2);
+        printf("rook\n");
+        can_move = can_move_rook(y1, x1, y2, x2);
         break;
     case 'b':
     case 'B':
-        // can_move = can_move_bishop(y1, x1, y2, x2);
+        printf("bishop\n");
+        can_move = can_move_bishop(y1, x1, y2, x2);
         break;
     case 'n':
     case 'N':
-        // can_move = can_move_knight(y1, x1, y2, x2);
+        can_move = can_move_knight(y1, x1, y2, x2);
         break;
     case 'p':
     case 'P':
-        // can_move = can_move_pawn(y1, x1, y2, x2, is_black);
+        can_move = can_move_pawn(y1, x1, y2, x2, is_black);
         break;
     }
     if (!can_move)
@@ -84,6 +86,8 @@ bool move(int y1, int x1, int y2, int x2, bool is_black)
         printf("Illegal move!\n");
         return false;
     }
+    if (isalpha(board[y2][x2]))
+        capture[!is_black][num_capture[!is_black]++] = board[y2][x2];
     board[y2][x2] = board[y1][x1];
     set_square_color(y1, x1);
     return true;
