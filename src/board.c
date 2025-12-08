@@ -26,6 +26,22 @@ int half_turn = 0;
 int turn = 1;
 int player_number = 0;
 
+typedef struct{
+    char board[8][8];
+    char capture[2][15];
+    int num_capture[2];
+    int king_location[2][2];
+    bool king_moved[2];
+    bool a_rook_moved[2];
+    bool h_rook_moved[2];
+    int en_passant_flags[2][8];
+    int half_turn;
+    int turn;
+    int player_number;
+}Position;
+
+Position *current_position = NULL;
+
 void display_board()
 {
     int i, j, k;
