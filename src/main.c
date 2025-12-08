@@ -18,6 +18,7 @@ bool promotion(int y1, int x1, int y2, int x2, bool is_black);
 int main()
 {
     char *players[] = {"White", "Black"};
+    commit_position();
     for (;;)
     {
         turn = half_turn / 2 + 1;
@@ -65,12 +66,10 @@ bool move(int y1, int x1, int y2, int x2, bool is_black)
         break;
     case 'r':
     case 'R':
-        printf("rook\n");
         can_move = can_move_rook(y1, x1, y2, x2);
         break;
     case 'b':
     case 'B':
-        printf("bishop\n");
         can_move = can_move_bishop(y1, x1, y2, x2);
         break;
     case 'n':
@@ -91,5 +90,11 @@ bool move(int y1, int x1, int y2, int x2, bool is_black)
         capture[!is_black][num_capture[!is_black]++] = board[y2][x2];
     board[y2][x2] = board[y1][x1];
     set_square_color(y1, x1);
+
+    //if (is_in_check(is_black)){
+        //reset_position();
+        //return false;
+    //}
+    commit_position();
     return true;
 }
