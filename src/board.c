@@ -1,6 +1,7 @@
 #include "board.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 
@@ -26,7 +27,7 @@ int half_turn = 0;
 int turn = 1;
 int player_number = 0;
 
-typedef struct{
+typedef struct Position{
     char board[8][8];
     char capture[2][15];
     int num_capture[2];
@@ -38,6 +39,7 @@ typedef struct{
     int half_turn;
     int turn;
     int player_number;
+    struct Position *previous_position;
 }Position;
 
 Position *current_position = NULL;
@@ -105,4 +107,33 @@ void set_square_color(int y, int x)
     {
         board[y][x] = ' ';
     }
+}
+
+bool commit_position(){
+    Position *temp = malloc(sizeof(Position));
+    if (temp == NULL)
+        return false;
+    temp->previous_position = current_position;
+    current_position = temp;
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            current_position->board[i][j] = board[i][j];
+    for (int i = 0; i < 2; i++){
+        for (int j = 0; j < 8; j++)
+            current_position->en_passant_flags[i][j] = en_passant_flags[i][j];
+
+        for (int j = 0; j < 2; j++)
+            current_position->king_location[i][j] = king_location[i][j];
+        current_position->king_moved[i] = king_moved[i];
+        current_position->a_rook_moved[i] = a_rook_moved[i];
+        current_position->h_rook_moved[i] = h_rook_moved[i];
+        current_position->num_capture[i] = num_capture[i];
+        
+        for (int j = 0; j < num_capture[i]; j++)
+            current_position->capture[i][j] = capture[i][j];
+    }
+    current_position->half_turn = half_turn;
+    current_position->turn = turn;
+    current_position->player_number = player_number;
+    return true;  
 }
