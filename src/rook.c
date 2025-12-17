@@ -56,7 +56,8 @@ bool can_move_rook(int y1, int x1, int y2, int x2)
     }
     return true;
 }
-bool rook_has_legal_move(int y1, int x1, bool is_black){
+bool rook_has_legal_move(int y1, int x1, bool is_black)
+{
     int rook_moves[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
     for (int i = 0; i < 4; i++)
     {
@@ -69,7 +70,8 @@ bool rook_has_legal_move(int y1, int x1, bool is_black){
                 {
                     if (!(isupper(board[moved_y][moved_x])))
                     {
-                        board[moved_y][moved_x] = 'B';
+                        board[moved_y][moved_x] = 'R';
+                        set_square_color(y1, x1);
                         if (!(is_in_check(is_black)))
                         {
                             reset_position();
@@ -86,8 +88,9 @@ bool rook_has_legal_move(int y1, int x1, bool is_black){
                 {
                     if (!(islower(board[moved_y][moved_x])))
                     {
-                        board[moved_y][moved_x] = 'b';
-                        if (!(is_in_check(!is_black)))
+                        board[moved_y][moved_x] = 'r';
+                        set_square_color(y1, x1);
+                        if (!(is_in_check(is_black)))
                         {
                             reset_position();
                             return true;

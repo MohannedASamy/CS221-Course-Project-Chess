@@ -64,6 +64,9 @@ bool king_has_legal_move(int y1, int x1, bool is_black)
                 if (!(isupper(board[moved_y][moved_x])))
                 {
                     board[moved_y][moved_x] = 'K';
+                    king_location[is_black][0] = moved_y;
+                    king_location[is_black][1] = moved_x;
+                    set_square_color(y1, x1);
                     if (!(is_in_check(is_black)))
                     {
                         reset_position();
@@ -81,7 +84,10 @@ bool king_has_legal_move(int y1, int x1, bool is_black)
                 if (!(islower(board[moved_y][moved_x])))
                 {
                     board[moved_y][moved_x] = 'k';
-                    if (!(is_in_check(!is_black)))
+                    king_location[is_black][0] = moved_y;
+                    king_location[is_black][1] = moved_x;
+                    set_square_color(y1, x1);
+                    if (!(is_in_check(is_black)))
                     {
                         reset_position();
                         return true;

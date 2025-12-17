@@ -69,6 +69,7 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
     {
         if ((en_passant(y1, x1, y1 - 1, x1 - 1, is_black)) || (en_passant(y1, x1, y1 - 1, x1 + 1, is_black)))
         {
+            reset_position();
             return true;
         }
     }
@@ -76,6 +77,7 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
     {
         if ((en_passant(y1, x1, y1 + 1, x1 - 1, is_black)) || (en_passant(y1, x1, y1 + 1, x1 + 1, is_black)))
         {
+            reset_position();
             return true;
         }
     }
@@ -83,6 +85,7 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
     if ((!is_black && !(isalpha(board[y_check][x1]))) || (is_black && !(isalpha(board[y_check][x1]))))
     {
         board[y_check][x1] = is_black ? 'P' : 'p';
+        set_square_color(y1, x1);
         if (!is_in_check(is_black))
         {
             reset_position();
@@ -99,6 +102,7 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
         if ((y1 == 1 && !is_black && (isalpha(board[y_check][x1]))) || (y1 == 5 && is_black && (isalpha(board[y_check][x1]))))
         {
             board[y_check][x1] = is_black ? 'P' : 'p';
+            set_square_color(y1, x1);
             if (!is_in_check(is_black))
             {
                 reset_position();
@@ -115,7 +119,8 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
         if (!islower(board[y1 + 1][x1 - 1]))
         {
             board[y1 + 1][x1 - 1] = 'p';
-            if (!is_in_check)
+            set_square_color(y1, x1);
+            if (!is_in_check(is_black))
             {
                 reset_position();
                 return true;
@@ -128,7 +133,8 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
         else if (!islower(board[y1 + 1][x1 + 1]))
         {
             board[y1 + 1][x1 + 1] = 'p';
-            if (!is_in_check)
+            set_square_color(y1, x1);
+            if (!is_in_check(is_black))
             {
                 reset_position();
                 return true;
@@ -144,7 +150,8 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
         if (!isupper(board[y1 - 1][x1 - 1]))
         {
             board[y1 - 1][x1 - 1] = 'P';
-            if (!is_in_check)
+            set_square_color(y1, x1);
+            if (!is_in_check(is_black))
             {
                 reset_position();
                 return true;
@@ -157,7 +164,8 @@ bool pawn_has_legal_move(int y1, int x1, bool is_black)
         else if (!islower(board[y1 - 1][x1 + 1]))
         {
             board[y1 - 1][x1 + 1] = 'P';
-            if (!is_in_check)
+            set_square_color(y1, x1);
+            if (!is_in_check(is_black))
             {
                 reset_position();
                 return true;
