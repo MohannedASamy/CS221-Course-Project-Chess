@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 char board[8][8] = {
     {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
     {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
@@ -28,7 +26,8 @@ int half_turn = -1;
 int turn = 1;
 int player_number = 0;
 
-typedef struct Position{
+typedef struct Position
+{
     char board[8][8];
     char capture[2][15];
     int num_capture[2];
@@ -41,7 +40,7 @@ typedef struct Position{
     int turn;
     int player_number;
     struct Position *previous_position;
-}Position;
+} Position;
 
 Position *current_position = NULL;
 Position *redo_stack = NULL;
@@ -111,14 +110,15 @@ void set_square_color(int y, int x)
     }
 }
 
-bool is_in_check(bool is_black){
-    int y = king_location[is_black][0], x =  king_location[is_black][1];
-    char queen = is_black? 'q' : 'Q', rook = is_black? 'r' : 'R', bishop = is_black? 'b' : 'B',
-         knight = is_black? 'n' : 'N', pawn = is_black? 'p' : 'P', king = is_black? 'k' : 'K';
+bool is_in_check(bool is_black)
+{
+    int y = king_location[is_black][0], x = king_location[is_black][1];
+    char queen = is_black ? 'q' : 'Q', rook = is_black ? 'r' : 'R', bishop = is_black ? 'b' : 'B',
+         knight = is_black ? 'n' : 'N', pawn = is_black ? 'p' : 'P', king = is_black ? 'k' : 'K';
     int rook_moves[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
     int bishop_moves[4][2] = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
     int knight_moves[8][2] = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {1, 2}, {-1, 2}, {1, -2}, {-1, -2}};
-    int king_moves[8][2] = {{1,1}, {1,0}, {1, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {0, -1}};
+    int king_moves[8][2] = {{1, 1}, {1, 0}, {1, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {0, -1}};
     int pawn_moves[2][2] = {{1, 1}, {1, -1}};
     if (is_black)
     {
@@ -126,18 +126,19 @@ bool is_in_check(bool is_black){
         pawn_moves[1][0] = -1;
     }
 
-    for (int i = 0; i < 8; i++){
+    for (int i = 0; i < 8; i++)
+    {
         int moved_y = y + knight_moves[i][0], moved_x = x + knight_moves[i][1];
         if (moved_y >= 0 && moved_y < 8 && moved_x >= 0 && moved_x < 8)
             if (board[moved_y][moved_x] == knight)
                 return true;
-        
+
         moved_y = y + king_moves[i][0], moved_x = x + king_moves[i][1];
         if (moved_y >= 0 && moved_y < 8 && moved_x >= 0 && moved_x < 8)
             if (board[moved_y][moved_x] == king)
                 return true;
     }
-    
+
     for (int i = 0; i < 2; i++)
     {
         int moved_y = y + pawn_moves[i][0], moved_x = x + pawn_moves[i][1];
@@ -154,7 +155,7 @@ bool is_in_check(bool is_black){
             if (moved_y < 0 || moved_y > 7 || moved_x < 0 || moved_x > 7)
                 break;
             if (board[moved_y][moved_x] == rook || board[moved_y][moved_x] == queen)
-                    return true;
+                return true;
             if (isalpha(board[moved_y][moved_x]))
                 break;
         }
@@ -164,7 +165,7 @@ bool is_in_check(bool is_black){
             if (moved_y < 0 || moved_y > 7 || moved_x < 0 || moved_x * j > 7)
                 break;
             if (board[moved_y][moved_x] == bishop || board[moved_y][moved_x] == queen)
-                    return true;
+                return true;
             if (isalpha(board[moved_y][moved_x]))
                 break;
         }
@@ -179,7 +180,8 @@ void free_stack(Position *p){
     free(p);
 }
 
-bool commit_position(){
+bool commit_position()
+{
     Position *temp = malloc(sizeof(Position));
     if (temp == NULL)
         return false;
@@ -188,7 +190,8 @@ bool commit_position(){
     for (int i = 0; i < 8; i++)
         for (int j = 0; j < 8; j++)
             current_position->board[i][j] = board[i][j];
-    for (int i = 0; i < 2; i++){
+    for (int i = 0; i < 2; i++)
+    {
         for (int j = 0; j < 8; j++)
             current_position->en_passant_flags[i][j] = en_passant_flags[i][j];
 
@@ -198,7 +201,7 @@ bool commit_position(){
         current_position->a_rook_moved[i] = a_rook_moved[i];
         current_position->h_rook_moved[i] = h_rook_moved[i];
         current_position->num_capture[i] = num_capture[i];
-        
+
         for (int j = 0; j < num_capture[i]; j++)
             current_position->capture[i][j] = capture[i][j];
     }
@@ -211,11 +214,13 @@ bool commit_position(){
     return true;  
 }
 
-void reset_position(){
+void reset_position()
+{
     for (int i = 0; i < 8; i++)
         for (int j = 0; j < 8; j++)
             board[i][j] = current_position->board[i][j];
-    for (int i = 0; i < 2; i++){
+    for (int i = 0; i < 2; i++)
+    {
         for (int j = 0; j < 8; j++)
             en_passant_flags[i][j] = current_position->en_passant_flags[i][j];
 
@@ -225,7 +230,7 @@ void reset_position(){
         a_rook_moved[i] = current_position->a_rook_moved[i];
         h_rook_moved[i] = current_position->h_rook_moved[i];
         num_capture[i] = current_position->num_capture[i];
-        
+
         for (int j = 0; j < num_capture[i]; j++)
             capture[i][j] = current_position->capture[i][j];
     }
