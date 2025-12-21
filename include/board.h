@@ -16,7 +16,7 @@ extern int half_turn;
 extern int turn;
 extern int player_number;
 
-display_board(bool is_black);
+void display_board(bool is_black);
 
 void set_square_color(int y, int x);
 
