@@ -106,7 +106,7 @@ void set_square_color(int y, int x)
     }
     else
     {
-        board[y][x] = ' ';
+        board[y][x] = '.';
     }
 }
 
