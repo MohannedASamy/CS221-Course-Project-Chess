@@ -45,40 +45,79 @@ typedef struct Position
 Position *current_position = NULL;
 Position *redo_stack = NULL;
 
-void display_board()
+void display_board(bool is_black)
 {
     int i, j, k;
-
-    printf("captured white piece {");
-    for (int z = 0; z < num_capture[0]; z++)
+    if (is_black)
     {
-        printf(" %c ,", capture[0][z]);
+        printf("captured black piece {");
+        for (int z = 0; z < num_capture[0]; z++)
+        {
+            printf(" %c ,", capture[is_black][z]);
+        }
+    }
+    else
+    {
+        printf("captured white piece {");
+        for (int z = 0; z < num_capture[0]; z++)
+        {
+            printf(" %c ,", capture[is_black][z]);
+        }
     }
     printf("}\n\n");
-
     printf(" ");
-    for (i = 7; i >= 0; i--)
-        printf("    %c", (char)(i + 'A'));
-    printf("\n");
-
-    for (k = 0; k < 8; k++)
+    for (i = 0; i <= 7; i++)
     {
-        printf("  ");
-        for (i = 0; i < 42; i++)
+        if (!is_black)
         {
-            printf("-");
+            printf("    %c", (char)(i + 'A'));
         }
-        printf("\n");
-        printf("%d ", k + 1);
-
-        for (j = 7; j >= 0; j--)
+        else
         {
-            printf("|| %c ", board[k][j]);
+            printf("    %c", (char)(7 - i + 'A'));
         }
-
-        printf("|| %d\n", k + 1);
     }
+    printf("\n");
+    if (is_black)
+    {
+        for (k = 0; k < 8; k++)
+        {
+            printf("  ");
+            for (i = 0; i < 42; i++)
+            {
+                printf("-");
+            }
+            printf("\n");
+            printf("%d ", k + 1);
 
+            for (j = 7; j >= 0; j--)
+            {
+                printf("|| %c ", board[k][j]);
+            }
+
+            printf("|| %d\n", k + 1);
+        }
+    }
+    else
+    {
+        for (k = 0; k < 8; k++)
+        {
+            printf("  ");
+            for (i = 0; i < 42; i++)
+            {
+                printf("-");
+            }
+            printf("\n");
+            printf("%d ", 8 - k);
+
+            for (j = 0; j <= 7; j++)
+            {
+                printf("|| %c ", board[7 - k][j]);
+            }
+
+            printf("|| %d\n", 8 - k);
+        }
+    }
     printf("  ");
     for (i = 0; i < 42; i++)
     {
@@ -87,15 +126,38 @@ void display_board()
     printf("\n");
 
     printf(" ");
-    for (i = 7; i >= 0; i--)
-        printf("    %c", (char)(i + 'A'));
-    printf("\n\n");
-    printf("captured black piece {");
-    for (int z = 0; z < num_capture[1]; z++)
+    for (i = 0; i <= 7; i++)
     {
-        printf(" %c ,", capture[1][z]);
+        if (!is_black)
+        {
+            printf("    %c", (char)(i + 'A'));
+        }
+        else
+        {
+            printf("    %c", (char)(7 - i + 'A'));
+        }
     }
-    printf("}\n\n\n");
+    printf("\n\n");
+    if (is_black)
+    {
+
+        printf("captured white piece {");
+        for (int z = 0; z < num_capture[0]; z++)
+        {
+            printf(" %c ,", capture[is_black][z]);
+        }
+        printf("}\n\n");
+    }
+    else
+    {
+        printf("captured black piece {");
+        for (int z = 0; z < num_capture[0]; z++)
+        {
+            printf(" %c ,", capture[is_black][z]);
+        }
+        printf("}\n\n");
+    }
+    printf("\n\n\n");
 }
 
 void set_square_color(int y, int x)
